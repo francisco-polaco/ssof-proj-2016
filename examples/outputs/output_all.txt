@@ -1,0 +1,514 @@
+----- SQLI_01 -----
+htmlDocument
+  htmlElement
+    TOKEN: <
+  htmlElement
+    TOKEN: html
+  htmlElement
+    TOKEN: >
+  phpBlock
+    expressionStatement
+      notLeftRecursionExpression
+        keyedVariable
+          TOKEN: $nis
+        assignmentOperator
+          TOKEN: =
+        keyedVariable
+          TOKEN: $_POST
+          squareCurlyExpression
+            TOKEN: [
+            string
+              TOKEN: 'nis'
+            TOKEN: ]
+      TOKEN: ;
+    expressionStatement
+      notLeftRecursionExpression
+        keyedVariable
+          TOKEN: $query
+        assignmentOperator
+          TOKEN: =
+        string
+          TOKEN: "
+          interpolatedStringPart
+            TOKEN: SELECT *FROM siswa WHERE nis='
+          keyedVariable
+            TOKEN: $nis
+          interpolatedStringPart
+            TOKEN: '
+          TOKEN: "
+      TOKEN: ;
+    expressionStatement
+      notLeftRecursionExpression
+        keyedVariable
+          TOKEN: $q
+        assignmentOperator
+          TOKEN: =
+        functionCall
+          identifier
+            TOKEN: mysql_query
+          arguments
+            TOKEN: (
+            keyedVariable
+              TOKEN: $query
+            TOKEN: ,
+            keyedVariable
+              TOKEN: $koneksi
+            TOKEN: )
+      TOKEN: ;
+    inlineHtml
+      htmlElement
+        TOKEN: <
+      htmlElement
+        TOKEN: /
+      htmlElement
+        TOKEN: html
+      htmlElement
+        TOKEN: >
+  TOKEN: <EOF>
+
+----- SQLI_02 -----
+htmlDocument
+  htmlElement
+    TOKEN: <
+  htmlElement
+    TOKEN: html
+  htmlElement
+    TOKEN: >
+  phpBlock
+    expressionStatement
+      notLeftRecursionExpression
+        keyedVariable
+          TOKEN: $nis
+        assignmentOperator
+          TOKEN: =
+        keyedVariable
+          TOKEN: $_POST
+          squareCurlyExpression
+            TOKEN: [
+            string
+              TOKEN: 'nis'
+            TOKEN: ]
+      TOKEN: ;
+    expressionStatement
+      notLeftRecursionExpression
+        keyedVariable
+          TOKEN: $q_sems
+        assignmentOperator
+          TOKEN: =
+        string
+          TOKEN: "
+          interpolatedStringPart
+            TOKEN: SELECT id_nilai,nis,semester FROM nilai WHERE nis='
+          keyedVariable
+            TOKEN: $nis
+          interpolatedStringPart
+            TOKEN: 'GROUP BY semester
+          TOKEN: "
+      TOKEN: ;
+    expressionStatement
+      notLeftRecursionExpression
+        keyedVariable
+          TOKEN: $hasil
+        assignmentOperator
+          TOKEN: =
+        functionCall
+          identifier
+            TOKEN: mysql_query
+          arguments
+            TOKEN: (
+            keyedVariable
+              TOKEN: $q_sems
+            TOKEN: ,
+            keyedVariable
+              TOKEN: $koneksi
+            TOKEN: )
+      TOKEN: ;
+    inlineHtml
+      htmlElement
+        TOKEN: <
+      htmlElement
+        TOKEN: /
+      htmlElement
+        TOKEN: html
+      htmlElement
+        TOKEN: >
+  TOKEN: <EOF>
+
+----- SQLI_03 -----
+htmlDocument
+  htmlElement
+    TOKEN: <
+  htmlElement
+    TOKEN: html
+  htmlElement
+    TOKEN: >
+  phpBlock
+    expressionStatement
+      notLeftRecursionExpression
+        keyedVariable
+          TOKEN: $idkelas
+        assignmentOperator
+          TOKEN: =
+        keyedVariable
+          TOKEN: $_GET
+          squareCurlyExpression
+            TOKEN: [
+            string
+              TOKEN: 'idk'
+            TOKEN: ]
+      TOKEN: ;
+    expressionStatement
+      notLeftRecursionExpression
+        keyedVariable
+          TOKEN: $show_kelas
+        assignmentOperator
+          TOKEN: =
+        string
+          TOKEN: "
+          interpolatedStringPart
+            TOKEN: SELECT * FROM kelas WHERE id_kelas='
+          keyedVariable
+            TOKEN: $idkelas
+          interpolatedStringPart
+            TOKEN: '
+          TOKEN: "
+      TOKEN: ;
+    expressionStatement
+      notLeftRecursionExpression
+        keyedVariable
+          TOKEN: $hasil_kelas
+        assignmentOperator
+          TOKEN: =
+        functionCall
+          identifier
+            TOKEN: mysql_query
+          arguments
+            TOKEN: (
+            keyedVariable
+              TOKEN: $show_kelas
+            TOKEN: ,
+            keyedVariable
+              TOKEN: $koneksi
+            TOKEN: )
+      TOKEN: ;
+    inlineHtml
+      htmlElement
+        TOKEN: <
+      htmlElement
+        TOKEN: /
+      htmlElement
+        TOKEN: html
+      htmlElement
+        TOKEN: >
+  TOKEN: <EOF>
+
+----- SQLI_04 -----
+htmlDocument
+  htmlElement
+    TOKEN: <
+  htmlElement
+    TOKEN: html
+  htmlElement
+    TOKEN: >
+  phpBlock
+    expressionStatement
+      notLeftRecursionExpression
+        keyedVariable
+          TOKEN: $id_nilai
+        assignmentOperator
+          TOKEN: =
+        keyedVariable
+          TOKEN: $_GET
+          squareCurlyExpression
+            TOKEN: [
+            string
+              TOKEN: 'idn'
+            TOKEN: ]
+      TOKEN: ;
+    expressionStatement
+      notLeftRecursionExpression
+        keyedVariable
+          TOKEN: $q_nilai
+        assignmentOperator
+          TOKEN: =
+        string
+          TOKEN: "
+          interpolatedStringPart
+            TOKEN: SELECT * FROM nilai INNER JOIN matapelajaran ON 
+matapelajaran.id_matapelajaran = nilai.id_matapelajaran INNER JOIN siswa ON siswa.nis=nilai.nis 
+INNER JOIN kelas ON kelas.id_kelas=nilai.id_kelas
+WHERE id_nilai='
+          keyedVariable
+            TOKEN: $id_nilai
+          interpolatedStringPart
+            TOKEN: '
+          TOKEN: "
+      TOKEN: ;
+    expressionStatement
+      notLeftRecursionExpression
+        keyedVariable
+          TOKEN: $hasil
+        assignmentOperator
+          TOKEN: =
+        functionCall
+          identifier
+            TOKEN: mysql_query
+          arguments
+            TOKEN: (
+            keyedVariable
+              TOKEN: $q_nilai
+            TOKEN: ,
+            keyedVariable
+              TOKEN: $koneksi
+            TOKEN: )
+      TOKEN: ;
+    inlineHtml
+      htmlElement
+        TOKEN: <
+      htmlElement
+        TOKEN: /
+      htmlElement
+        TOKEN: html
+      htmlElement
+        TOKEN: >
+  TOKEN: <EOF>
+
+----- SQLI_05 -----
+htmlDocument
+  htmlElement
+    TOKEN: <
+  htmlElement
+    TOKEN: html
+  htmlElement
+    TOKEN: >
+  phpBlock
+    expressionStatement
+      notLeftRecursionExpression
+        keyedVariable
+          TOKEN: $matapelajaran
+        assignmentOperator
+          TOKEN: =
+        keyedVariable
+          TOKEN: $_POST
+          squareCurlyExpression
+            TOKEN: [
+            string
+              TOKEN: 'matapelajaran'
+            TOKEN: ]
+      TOKEN: ;
+    expressionStatement
+      notLeftRecursionExpression
+        keyedVariable
+          TOKEN: $idmatapelajaran
+        assignmentOperator
+          TOKEN: =
+        keyedVariable
+          TOKEN: $_POST
+          squareCurlyExpression
+            TOKEN: [
+            string
+              TOKEN: 'idmatapelajaran'
+            TOKEN: ]
+      TOKEN: ;
+    expressionStatement
+      notLeftRecursionExpression
+        keyedVariable
+          TOKEN: $edit_matapelajaran
+        assignmentOperator
+          TOKEN: =
+        string
+          TOKEN: "
+          interpolatedStringPart
+            TOKEN: UPDATE matapelajaran SET matapelajaran='
+          keyedVariable
+            TOKEN: $matapelajaran
+          interpolatedStringPart
+            TOKEN: ' WHERE id_matapelajaran='
+          keyedVariable
+            TOKEN: $idmatapelajaran
+          interpolatedStringPart
+            TOKEN: '
+          TOKEN: "
+      TOKEN: ;
+    expressionStatement
+      functionCall
+        identifier
+          TOKEN: mysql_query
+        arguments
+          TOKEN: (
+          keyedVariable
+            TOKEN: $edit_matapelajaran
+          TOKEN: ,
+          keyedVariable
+            TOKEN: $koneksi
+          TOKEN: )
+      TOKEN: ;
+    inlineHtml
+      htmlElement
+        TOKEN: <
+      htmlElement
+        TOKEN: /
+      htmlElement
+        TOKEN: html
+      htmlElement
+        TOKEN: >
+  TOKEN: <EOF>
+
+----- XSS_01 -----
+htmlDocument
+  htmlElement
+    TOKEN: <
+  htmlElement
+    TOKEN: html
+  htmlElement
+    TOKEN: >
+  htmlElement
+    TOKEN: <
+  htmlElement
+    TOKEN: form
+  htmlElement
+    TOKEN: action
+  htmlElement
+    TOKEN: =
+  htmlElement
+    TOKEN: "
+  phpBlock
+    echoStatement
+      TOKEN: echo
+      keyedVariable
+        TOKEN: $_SERVER
+        squareCurlyExpression
+          TOKEN: [
+          string
+            TOKEN: "
+            interpolatedStringPart
+              TOKEN: PHP_SELF
+            TOKEN: "
+          TOKEN: ]
+      TOKEN: null
+    inlineHtml
+      htmlElement
+        TOKEN: "
+      htmlElement
+        TOKEN: method
+      htmlElement
+        TOKEN: =
+      htmlElement
+        TOKEN: "
+      htmlElement
+        TOKEN: post
+      htmlElement
+        TOKEN: "
+      htmlElement
+        TOKEN: >
+      htmlElement
+        TOKEN: <
+      htmlElement
+        TOKEN: /
+      htmlElement
+        TOKEN: html
+      htmlElement
+        TOKEN: >
+  TOKEN: <EOF>
+
+----- XSS_02 -----
+htmlDocument
+  htmlElement
+    TOKEN: <
+  htmlElement
+    TOKEN: html
+  htmlElement
+    TOKEN: >
+  phpBlock
+    expressionStatement
+      notLeftRecursionExpression
+        keyedVariable
+          TOKEN: $firstname
+        assignmentOperator
+          TOKEN: =
+        keyedVariable
+          TOKEN: $_POST
+          squareCurlyExpression
+            TOKEN: [
+            string
+              TOKEN: 'firstname'
+            TOKEN: ]
+      TOKEN: ;
+    inlineHtml
+      htmlElement
+        TOKEN: <
+      htmlElement
+        TOKEN: td
+      htmlElement
+        TOKEN: >
+      htmlElement
+        TOKEN: <
+      htmlElement
+        TOKEN: input
+      htmlElement
+        TOKEN: type
+      htmlElement
+        TOKEN: =
+      htmlElement
+        TOKEN: "
+      htmlElement
+        TOKEN: text
+      htmlElement
+        TOKEN: "
+      htmlElement
+        TOKEN: name
+      htmlElement
+        TOKEN: =
+      htmlElement
+        TOKEN: "
+      htmlElement
+        TOKEN: firstname
+      htmlElement
+        TOKEN: "
+      htmlElement
+        TOKEN: value
+      htmlElement
+        TOKEN: =
+      htmlElement
+        TOKEN: "
+    echoStatement
+      TOKEN: echo
+      keyedVariable
+        TOKEN: $firstname
+      TOKEN: ;
+    inlineHtml
+      htmlElement
+        TOKEN: "
+      htmlElement
+        TOKEN: />
+      htmlElement
+        TOKEN: <
+      htmlElement
+        TOKEN: /
+      htmlElement
+        TOKEN: td
+      htmlElement
+        TOKEN: >
+      htmlElement
+        TOKEN: <
+      htmlElement
+        TOKEN: /
+      htmlElement
+        TOKEN: html
+      htmlElement
+        TOKEN: >
+  TOKEN: <EOF>
+
+----- XSS_03 -----
+htmlDocument
+  echoStatement
+    TOKEN: echo
+    keyedVariable
+      TOKEN: $_POST
+      squareCurlyExpression
+        TOKEN: [
+        string
+          TOKEN: 'username'
+        TOKEN: ]
+    TOKEN: ;
+  TOKEN: <EOF>

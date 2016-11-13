@@ -1,0 +1,41 @@
+
+apply plugin: 'antlr'
+apply plugin: 'eclipse'
+apply plugin: 'java'
+apply plugin: 'application'
+mainClassName = "tecnico.ssof.project.Analyzer"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //antlr "org.antlr:antlr:3.5.2" // use ANTLR version 3
+    antlr "org.antlr:antlr4:4.5" // use ANTLR version 4
+}
+
+// generate-grammar-settings
+
+generateGrammarSource {
+    maxHeapSize = "64m"
+    arguments += ["-visitor", "-long-messages"]
+    outputDirectory = file('build/generated-src/tecnico/ssof/project/parser')
+}
+
+eclipse {
+
+	classpath {
+
+		
+		defaultOutputDir = file('build/classes/main')
+	}
+}
+
+clean {
+    delete 'bin'
+}
+
+compileJava.dependsOn generateGrammarSource
+
+sourceSets.main.java.srcDirs += file('build/generated-src')
+sourceSets.main.output.classesDir = file('build/classes/main')
