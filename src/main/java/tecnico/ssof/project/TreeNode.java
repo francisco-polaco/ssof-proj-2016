@@ -1,5 +1,6 @@
 package tecnico.ssof.project;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class TreeNode {
@@ -12,6 +13,7 @@ public class TreeNode {
 	public TreeNode(String text) {
 		
 		this.text = text;
+		this.children = new LinkedList<TreeNode>();
 	}
 	
 	/// Adds a child to this node
@@ -20,6 +22,12 @@ public class TreeNode {
 	public TreeNode addChild(String text) {
 		
 		// TODO
+//		public TreeNode<T> addChild(T child) {
+//	        TreeNode<T> childNode = new TreeNode<T>(child);
+//	        childNode.parent = this;
+//	        this.children.add(childNode);
+//	        return childNode;
+//	    }
 		return null;
 	}
 	
