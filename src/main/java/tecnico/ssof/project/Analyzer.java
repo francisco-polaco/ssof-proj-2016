@@ -13,14 +13,14 @@ public class Analyzer {
 	public static void main(String[] args) throws IOException {
 		
 		// check arguments
-		if(args.length != 2) {
+		if(args.length != 1) {
 			System.err.println("Incorrect number of arguments!");
 			System.err.println("Usage: Analyzer <slice_file_path>!");
 			System.exit(-1);
 		}
 		
 		// get slice file path
-		String slice_path = args[1];
+		String slice_path = args[0];
 		
 		// create Analyzer
 		Analyzer analyzer = new Analyzer(slice_path);
