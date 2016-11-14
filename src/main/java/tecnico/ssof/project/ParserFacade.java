@@ -1,6 +1,8 @@
 package tecnico.ssof.project;
 
 import tecnico.ssof.project.parser.*;
+import tecnico.ssof.project.printer.ASTPrinter;
+
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -12,6 +14,8 @@ import java.nio.file.Files;
 public class ParserFacade {
 
 	private static final String ENCODING = "UTF-8";
+	
+	private boolean printAST = true; // true if we want to print the resulting AST
 	
 	public ParserFacade() {
 		
@@ -35,7 +39,16 @@ public class ParserFacade {
         PHPParser parser = new PHPParser(tokens);
 
         // parse starting at rule htmlDocument
-        return parser.htmlDocument();
+        PHPParser.HtmlDocumentContext result = parser.htmlDocument();
+        
+        // print resulting AST?
+        if(printAST) {
+        	
+        	ASTPrinter printer = new ASTPrinter();
+        	printer.print(result);
+        }
+        	
+        return result;
 	}
 	
 	/// get String from File
