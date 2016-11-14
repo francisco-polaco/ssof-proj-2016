@@ -10,8 +10,23 @@ import java.util.List;
 public class Analyzer {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		
+		// check arguments
+		if(args.length != 2) {
+			System.err.println("Incorrect number of arguments!");
+			System.err.println("Usage: Analyzer <slice_file_path>!");
+			System.exit(-1);
+		}
+		
+		// get slice file path
+		String slice_path = args[1];
+		
+		// create Analyzer
+		Analyzer analyzer = new Analyzer(slice_path);
+		
+		// parse slice
+		analyzer.parse();
+	
 	}
 	
 	private static final String PATTERN_FILE_PATH = "../../../../../../examples/pattern_sqli.txt"; 
@@ -60,7 +75,7 @@ public class Analyzer {
 
 
 	/// Creates AST for the given slice
-	private void createAST() {
+	private void parse() {
 		
 		// File sliceFile = create File from sliceFilePath
 		
