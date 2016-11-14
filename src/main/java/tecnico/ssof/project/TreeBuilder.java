@@ -54,7 +54,7 @@ public class TreeBuilder extends OurVisitor {
             if (child instanceof RuleContext) // explore this child
             	explore((RuleContext) child, thisNode);
         	else
-        		if(child instanceof TerminalNode) // it's a token! just create node for it
+        		if(child instanceof TerminalNode && !ruleName.equals("htmlElement")) // it's a token! just create node for it
         		{
         			TerminalNode leaf = (TerminalNode) child;
         			System.out.println("TOKEN: " + leaf.getText());
