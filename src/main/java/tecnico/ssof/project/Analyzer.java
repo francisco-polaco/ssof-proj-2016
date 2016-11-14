@@ -33,7 +33,6 @@ public class Analyzer {
 	private static final String PATTERN_FILE_PATH = "../../../../../../examples/pattern_sqli.txt"; 
 	
 	private String sliceFilePath; 				// path to the slice file
-	private String slice;						// the whole slice represented as a string
 	private String vulnerability;				// vulnerability name (necessary???)
 	private List<String> entryPoints;			// entry points
 	private List<String> validationFunctions;	// sanitization functions
