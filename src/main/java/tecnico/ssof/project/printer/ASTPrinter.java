@@ -25,10 +25,9 @@ public class ASTPrinter {
                 && ctx.getChildCount() == 1
                 && ctx.getChild(0) instanceof ParserRuleContext; // ignore (or not)
         
-        if (!toBeIgnored) {
-			
-            String ruleName = PHPParser.ruleNames[ctx.getRuleIndex()]; // get rule name
-            
+        String ruleName = PHPParser.ruleNames[ctx.getRuleIndex()]; // get rule name
+        
+        if (!toBeIgnored && !ruleName.equals("htmlElement")) {    
             for (int i = 0; i < indentation; i++) {
                 System.out.print("  ");
             }
@@ -42,7 +41,7 @@ public class ASTPrinter {
             if (element instanceof RuleContext)
                 explore((RuleContext)element, indentation + (toBeIgnored ? 0 : 1));
             else
-            	if(element instanceof TerminalNode) {
+            	if(element instanceof TerminalNode && !ruleName.equals("htmlElement")) {
     				TerminalNode leaf = (TerminalNode) element;
     				
     				for (int j = 0; j < indentation + 1; j++) {
