@@ -4,12 +4,13 @@ import tecnico.ssof.project.TreeNode;
 import tecnico.ssof.project.OurVisitor;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Analyzer {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		// check arguments
 		if(args.length != 2) {
@@ -75,10 +76,13 @@ public class Analyzer {
 
 
 	/// Creates AST for the given slice
-	private void parse() {
+	private void parse() throws IOException {
 		
-		// File sliceFile = create File from sliceFilePath
+		// parse
+		ParserFacade parser = new ParserFacade();
+		parser.parse(new File(sliceFilePath));
 		
+		// build tree
 		// treeBuilder = new TreeBuilder(new ParserFacade.parse(sliceFile));
 		// treeBuilder.visit(this);
 		
