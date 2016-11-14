@@ -3,7 +3,9 @@ package tecnico.ssof.project;
 import tecnico.ssof.project.TreeNode;
 import tecnico.ssof.project.OurVisitor;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +29,12 @@ public class Analyzer {
 		
 		// parse slice
 		analyzer.parse();
-	
+		
+		// print file (with line numbers) and results
+		System.out.println("--- Slice given as input ---\n");
+		printSlice(new BufferedReader(new FileReader(analyzer.getSliceFilePath())));
 	}
-	
+
 	private static final String PATTERN_FILE_PATH = "../../../../../../examples/pattern_sqli.txt"; 
 	
 	private String sliceFilePath; 				// path to the slice file
@@ -49,6 +54,10 @@ public class Analyzer {
 	
 	// getters/setters
 	
+	public String getSliceFilePath() {
+		return sliceFilePath;
+	}
+
 	public String getVulnerability() {
 		return vulnerability;
 	}
@@ -77,12 +86,12 @@ public class Analyzer {
 	/// Creates AST for the given slice
 	private void parse() throws IOException {
 		
-		// parse
+		// parse (just for debug)
 		ParserFacade parser = new ParserFacade();
 		parser.parse(new File(sliceFilePath));
 		
 		// build tree
-		// treeBuilder = new TreeBuilder(new ParserFacade.parse(sliceFile));
+		// treeBuilder = new TreeBuilder(new ParserFacade.parse(new File(sliceFilePath)));
 		// treeBuilder.visit(this);
 		
 		// TODO
@@ -100,6 +109,20 @@ public class Analyzer {
 		//	3. treeWorker.visit(this);
 		
 		// TODO
+	}
+	
+	
+	/// Prints slice file (with line numbers)
+	private static void printSlice(BufferedReader buffer) throws IOException {
+		
+		String line;
+		int line_no = 1;
+		
+	    while ((line = buffer.readLine()) != null) {
+	    	
+	    	System.out.println(String.valueOf(line_no) + ": " + line);
+	    	line_no++;
+	    }
 	}
 	
 	
