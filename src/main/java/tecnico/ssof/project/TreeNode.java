@@ -10,9 +10,10 @@ public class TreeNode {
 	private TreeNode parent;
 	private List<TreeNode> children;
 	
-	public TreeNode(String text) {
+	public TreeNode(String text, int line) {
 		
 		this.text = text;
+		this.line = line;
 		this.children = new LinkedList<TreeNode>();
 	}
 	
@@ -47,6 +48,14 @@ public class TreeNode {
 		
 		// TODO
 		return 0;
+	}
+	
+	/// Get line
+	///
+	/// @return: line number of this node
+	public int getLine() {
+		
+		return line;
 	}
 	
 	/// Check if node is a leaf
