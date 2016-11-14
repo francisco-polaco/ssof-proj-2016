@@ -20,11 +20,11 @@ public class TreeNode {
 	/// Adds a child to this node
 	///
 	/// @return: the new child 
-	public TreeNode addChild(String text) {
+	public TreeNode addChild(String text, int line) {
 		
 		// TODO
 //		public TreeNode<T> addChild(T child) {
-//	        TreeNode<T> childNode = new TreeNode<T>(child);
+//	        TreeNode<T> childNode = new TreeNode<T>(child, line);
 //	        childNode.parent = this;
 //	        this.children.add(childNode);
 //	        return childNode;
