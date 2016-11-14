@@ -37,11 +37,14 @@ public class TreeBuilder extends OurVisitor {
 		// get rule name
 		String ruleName = PHPParser.ruleNames[ctx.getRuleIndex()];
 		
+		// get line number
+        int line = ((ParserRuleContext) ctx).getStart().getLine();
+		
 		// if not to be ignored, we need to build a new node
 		if (!toBeIgnored && !ruleName.equals("htmlElement")) {
 			
 			System.out.println(ruleName);
-			thisNode = parentNode.addChild(ruleName); // add this rule as child
+			thisNode = parentNode.addChild(ruleName, line); // add this rule as child
         }
 		else
 			thisNode = parentNode;
@@ -58,7 +61,7 @@ public class TreeBuilder extends OurVisitor {
         		{
         			TerminalNode leaf = (TerminalNode) child;
         			System.out.println("TOKEN: " + leaf.getText());
-        			thisNode.addChild(leaf.getText());
+        			thisNode.addChild(leaf.getText(), line);
         		}
 		}
 	}
