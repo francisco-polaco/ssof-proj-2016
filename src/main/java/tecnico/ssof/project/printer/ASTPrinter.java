@@ -2,8 +2,12 @@ package tecnico.ssof.project.printer;
 
 import tecnico.ssof.project.parser.*;
 
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
@@ -25,13 +29,17 @@ public class ASTPrinter {
                 && ctx.getChildCount() == 1
                 && ctx.getChild(0) instanceof ParserRuleContext; // ignore (or not)
         
-        String ruleName = PHPParser.ruleNames[ctx.getRuleIndex()]; // get rule name
+        // get line number
+        int line = ((ParserRuleContext) ctx).getStart().getLine();
+        
+        // get rule name
+        String ruleName = PHPParser.ruleNames[ctx.getRuleIndex()];
         
         if (!toBeIgnored && !ruleName.equals("htmlElement")) {    
             for (int i = 0; i < indentation; i++) {
                 System.out.print("  ");
             }
-			System.out.println(ruleName);
+			System.out.println(line + ": " + ruleName);
         }
         
         for (int i=0;i<ctx.getChildCount();i++) {
@@ -48,7 +56,7 @@ public class ASTPrinter {
     	                System.out.print("  ");
     	            }
     				
-    				System.out.println("TOKEN: " + leaf.getText());
+    				System.out.println(line + ": " + "(TOKEN) " + leaf.getText());
                 }
         }
     }
