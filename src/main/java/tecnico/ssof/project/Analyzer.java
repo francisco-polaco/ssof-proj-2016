@@ -31,7 +31,7 @@ public class Analyzer {
 		analyzer.parse();
 		
 		// print file (with line numbers) and results
-		System.out.println("--- Slice given as input ---\n");
+		System.out.println("\n--- Slice given as input ---\n");
 		printSlice(new BufferedReader(new FileReader(analyzer.getSliceFilePath())));
 	}
 
