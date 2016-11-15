@@ -22,7 +22,7 @@ public class TreeBuilder extends OurVisitor {
 		
 		System.out.println("Just started building the tree!");
 		
-		explore(root, null);
+		explore(root, analyzer.getAst());
 	}
 	
 	/// Explore the given context (nothing more than a tree node from ANTLR4 parser)
