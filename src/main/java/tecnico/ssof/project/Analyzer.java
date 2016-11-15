@@ -50,6 +50,7 @@ public class Analyzer {
 		this.entryPoints = new ArrayList<String>();
 		this.validationFunctions = new ArrayList<String>();
 		this.sensitiveSinks = new ArrayList<String>();
+		this.ast = new TreeNode("root", -1);			// dummy node to represent the tree root (has no relevant info)
 	}
 	
 	// getters/setters
