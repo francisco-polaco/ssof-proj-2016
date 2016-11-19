@@ -17,3 +17,7 @@ hs_err_pid*
 /.settings
 /.project
 /.classpath
+
+#intelij
+*.iml
+.idea/

@@ -41,6 +41,8 @@ sourceSets.main.java.srcDirs += file('build/generated-src')
 sourceSets.main.output.classesDir = file('build/classes/main')
 
 run {    
-    args System.getProperty("exec.args").split() 
+	if(System.getProperty("exec.args") != null) {
+		args System.getProperty("exec.args").split()
+	}
 }
 
