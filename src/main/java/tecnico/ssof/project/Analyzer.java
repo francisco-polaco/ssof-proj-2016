@@ -1,7 +1,6 @@
 package tecnico.ssof.project;
 
-import tecnico.ssof.project.TreeNode;
-import tecnico.ssof.project.OurVisitor;
+import tecnico.ssof.project.francisco.TreeWorker;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,11 +16,11 @@ public class Analyzer {
 		// check arguments
 		if(args.length != 1) {
 			System.err.println("Incorrect number of arguments!");
-			System.err.println("Usage: Analyzer <slice_file_path>!");
+			System.err.println("Usage: java Analyzer <slice_file_path>!");
 			System.exit(-1);
 		}
-		
-		// get slice file path
+
+        // get slice file path
 		String slice_path = args[0];
 		
 		// create Analyzer
@@ -29,11 +28,16 @@ public class Analyzer {
 		
 		// parse slice
 		analyzer.parse();
-		
-		// print file (with line numbers) and results
-		System.out.println("\n--- Slice given as input ---\n");
-		printSlice(new BufferedReader(new FileReader(analyzer.getSliceFilePath())));
-	}
+        //analyzer.accept(new TreeBuilder(analyzer.getAst().));
+        // print file (with line numbers) and results
+        System.out.println("\n--- Slice given as input ---\n");
+
+        printSlice(new BufferedReader(new FileReader(analyzer.getSliceFilePath())));
+
+
+        analyzer.accept(new TreeWorker());
+
+    }
 
 	private static final String PATTERN_FILE_PATH = "../../../../../../examples/pattern_sqli.txt"; 
 	
@@ -131,6 +135,7 @@ public class Analyzer {
 	public void accept(OurVisitor v) {
 		
 		v.visit(this);
+
 	}
 }
 
