@@ -21,24 +21,26 @@ public class TreeNode {
 	///
 	/// @return: the new child 
 	public TreeNode addChild(String text, int line) {
+
+		TreeNode childNode = new TreeNode(text,line);
+		childNode.parent = this;
+		this.children.add(childNode);
 		
-		// TODO
-//		public TreeNode<T> addChild(T child) {
-//	        TreeNode<T> childNode = new TreeNode<T>(child, line);
-//	        childNode.parent = this;
-//	        this.children.add(childNode);
-//	        return childNode;
-//	    }
-		return null;
+		return childNode;
 	}
 	
 	/// Gets a child from this node
 	///
 	/// @ return: child at given index
-	public TreeNode getChildAt(int index) {
-		
-		// TODO
-		return null;
+	public TreeNode getChildAt(int index) throws IndexOutOfBoundsException {
+
+		try{
+
+			TreeNode childToReturn = this.children.get(index);
+
+		}catch(IndexOutOfBoundsException exception){
+			System.err.println("Not a valid index");
+		}
 	}
 	
 	/// Total number of children
@@ -46,8 +48,7 @@ public class TreeNode {
 	/// @return: number of children
 	public int getChildCount() {
 		
-		// TODO
-		return 0;
+		return this.children.size();
 	}
 	
 	/// Get line
@@ -63,13 +64,15 @@ public class TreeNode {
 	/// @return: true if it is a leaf; false otherwise
 	public boolean isLeaf() {
 		
-		// TODO
-		return false;
+		if(this.getChildCount() == 0){
+			return true;
+		}
+		else
+			return false;
 	}
 	
 	/// Prints tree
 	public void print() {
-		
-		// TODO
+		while()
 	}
 }
