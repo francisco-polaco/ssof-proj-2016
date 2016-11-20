@@ -5,6 +5,18 @@ import java.util.List;
 
 public class TreeNode {
 
+	public String getText() {
+		return text;
+	}
+
+	public TreeNode getParent() {
+		return parent;
+	}
+
+	public List<TreeNode> getChildren() {
+		return children;
+	}
+
 	private String text;
 	private int line;
 	private TreeNode parent;
@@ -41,6 +53,11 @@ public class TreeNode {
 		}catch(IndexOutOfBoundsException exception){
 			System.err.println("Not a valid index");
 		}
+
+	public TreeNode getChildAt(int index) {
+		
+		// TODO
+		return children.get(index);
 	}
 	
 	/// Total number of children
@@ -49,6 +66,7 @@ public class TreeNode {
 	public int getChildCount() {
 		
 		return this.children.size();
+
 	}
 	
 	/// Get line
