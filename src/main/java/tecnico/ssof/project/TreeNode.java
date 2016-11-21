@@ -46,18 +46,13 @@ public class TreeNode {
 	/// @ return: child at given index
 	public TreeNode getChildAt(int index) throws IndexOutOfBoundsException {
 
-		try{
-
+		if(this.getChildCount() > index){
 			TreeNode childToReturn = this.children.get(index);
-
-		}catch(IndexOutOfBoundsException exception){
+			return childToReturn;
+		}
+		else{
 			System.err.println("Not a valid index");
 		}
-
-	public TreeNode getChildAt(int index) {
-		
-		// TODO
-		return children.get(index);
 	}
 	
 	/// Total number of children
@@ -91,6 +86,32 @@ public class TreeNode {
 	
 	/// Prints tree
 	public void print() {
-		while()
+		TreeNode root = this;
+		TreeNode actual = this.getChildAt(0);
+		int i;
+		while(actual != root){
+			if(actual.isLeaf()){
+				System.out.println(actual.getText());
+				i = actual.parent.getChildren().indexOf(actual) + 1;
+				if(i > actual.parent.getChildCount()){
+					if(actual.parent == root){
+						return;
+					}
+					while(actual.parent.parent.getChildCount() < 2){
+						System.out.println(actual.parent.getText());
+						actual = actual.parent;
+					}
+					int next = actual.parent.getChildren().indexOf(actual.parent) + 1;
+					actual = actual.parent.parent.getChildAt(next);
+				}
+				else{
+					actual = actual.parent.getChildAt(i);
+				}
+			}
+			else{
+				actual = actual.getChildAt(0);
+			}
+
+		}
 	}
 }
