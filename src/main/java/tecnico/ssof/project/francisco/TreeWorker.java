@@ -38,12 +38,52 @@ public class TreeWorker extends OurVisitor {
             return;
         }
 
+        // Check if this variables were escaped
+        for(int i = 0 ; i < phpBlock.getChildCount() ; i++){
+            exploreForSanitization(phpBlock.getChildAt(i));
+        }
+
+        if(taintedVariables.size() == 0){
+            System.out.println("There is no bad variables! Hooray!");
+            return;
+        }
 
 
 	}
 
-	private void exploreForTaintedInput(TreeNode node){
-        if(isAnAssignmentStatement(node)){
+	private void exploreForSanitization(TreeNode node){
+        if(isAnAssignmentStatement(node) && isAFunctionCall(node.getChildAt(2))){
+            try {
+                exploreForSanitizationFunctions(node.getChildAt(2));
+            } catch (SanitizationFunctionException e) {
+                String varsName = node.getChildAt(0).getChildAt(0).getText();// getkeyedVariable.getToken.getText -> variable name
+                if (taintedVariables.contains(varsName)){ // apaga variaveis que sejam escapadas
+                    taintedVariables.remove(varsName);
+                }
+            }
+
+        }else {
+            for(int i = 0 ; i < node.getChildCount() ; i++)
+                exploreForSanitization(node.getChildAt(i));
+        }
+    }
+
+    private boolean isAFunctionCall(TreeNode childAt) {
+        return !childAt.isLeaf() && childAt.getText().equals("functionCall");
+    }
+
+    private void exploreForSanitizationFunctions(TreeNode node) throws SanitizationFunctionException {
+        if(isASanitizationFunction(node)){
+            throw new SanitizationFunctionException(node.getLine());
+        }
+    }
+
+    private boolean isASanitizationFunction(TreeNode node) {
+        return node.getChildAt(0).isLeaf() && analyzer.getValidationFunctions().contains(node.getChildAt(0).getText());
+    }
+
+    private void exploreForTaintedInput(TreeNode node){
+        if(isAnAssignmentStatement(node)) {
             // estamos perante uma situacao favoravel a uma atribuicao de variaveis mas
             try {
                 exploreForInputFunctions(node.getChildAt(2));
@@ -51,10 +91,9 @@ public class TreeWorker extends OurVisitor {
                 // AHAH I knew it, you shall go to the slammer!
                 taintedVariables.add(node.getChildAt(0).getText());
             }
-        }else if(node.getChildCount() == 1)
-            exploreForTaintedInput(node.getChildAt(0));
-        else{
-            // nao sei o que fazer aqui
+        }else{
+            for(int i = 0 ; i < node.getChildCount() ; i++)
+                exploreForTaintedInput(node.getChildAt(i));
         }
     }
 
