@@ -106,14 +106,52 @@ public class Analyzer {
 	/// Runs over each pattern to search for vulnerabilities in the slice
 	private void run() {
 	
-		// create File from PATTERN_FILE_PATH
-		
-		// for each pattern in pattern file
-		//	1. get entryPoints, validationFunctions and sensitiveSinks
-		//	2. treeWorker = new TreeWorker();
-		//	3. treeWorker.visit(this);
-		
-		// TODO
+		List<String> file = readFile(args[0]);
+		int i = 0;
+		String line = file.get(i++);
+		while(i < file.size){
+			if(line.equals("SQL injection") || line.equals("XSS")){
+				String _entryPoints = file.get(i++);
+				String _validationFunctions = file.get(i++);
+				String _sensitiveSinks = file.get(i++);
+
+				String[] _entryPointsList = _entryPoints.split(",");
+				String[] _validationFunctionsList = _validationFunctions.split(",");
+				String[] _sensitiveSinksList = _sensitiveSinks.split(",");
+
+				for(int j = 0; j < _entryPointsList.length; j++){
+					this.entryPoints.add(_entryPointsList[j]);
+				}
+				for(int k = 0; k < _validationFunctionsList.length; k++){
+					this.validationFunctions.add(_validationFunctionsList[k]);
+				}
+				for(int l = 0; l < _sensitiveSinksList.length; k++){
+					this.sensitiveSinks.add(_sensitiveSinksList[l]);
+				}
+			}
+			else{
+				i++;
+			}
+		}
+	}
+
+	private List<String> readFile(String filename){
+	  	List<String> records = new ArrayList<String>();
+		try
+		{
+		  	BufferedReader reader = new BufferedReader(new FileReader(filename));
+		   	String line;
+		    while ((line = reader.readLine()) != null){
+		      records.add(line);
+		    }
+		    reader.close();
+		    return records;
+		}
+		catch (Exception e){
+		    System.err.format("Exception occurred trying to read '%s'.", filename);
+		    e.printStackTrace();
+		    return null;
+		}
 	}
 	
 	

@@ -33,24 +33,26 @@ public class TreeNode {
 	///
 	/// @return: the new child 
 	public TreeNode addChild(String text, int line) {
+
+		TreeNode childNode = new TreeNode(text,line);
+		childNode.parent = this;
+		this.children.add(childNode);
 		
-		// TODO
-//		public TreeNode<T> addChild(T child) {
-//	        TreeNode<T> childNode = new TreeNode<T>(child, line);
-//	        childNode.parent = this;
-//	        this.children.add(childNode);
-//	        return childNode;
-//	    }
-		return null;
+		return childNode;
 	}
 	
 	/// Gets a child from this node
 	///
 	/// @ return: child at given index
-	public TreeNode getChildAt(int index) {
-		
-		// TODO
-		return children.get(index);
+	public TreeNode getChildAt(int index) throws IndexOutOfBoundsException {
+
+		if(this.getChildCount() > index){
+			TreeNode childToReturn = this.children.get(index);
+			return childToReturn;
+		}
+		else{
+			System.err.println("Not a valid index");
+		}
 	}
 	
 	/// Total number of children
@@ -58,8 +60,8 @@ public class TreeNode {
 	/// @return: number of children
 	public int getChildCount() {
 		
-		// TODO
-		return children.size();
+		return this.children.size();
+
 	}
 	
 	/// Get line
@@ -75,13 +77,41 @@ public class TreeNode {
 	/// @return: true if it is a leaf; false otherwise
 	public boolean isLeaf() {
 		
-		// TODO
-		return false;
+		if(this.getChildCount() == 0){
+			return true;
+		}
+		else
+			return false;
 	}
 	
 	/// Prints tree
 	public void print() {
-		
-		// TODO
+		TreeNode root = this;
+		TreeNode actual = this.getChildAt(0);
+		int i;
+		while(actual != root){
+			if(actual.isLeaf()){
+				System.out.println(actual.getText());
+				i = actual.parent.getChildren().indexOf(actual) + 1;
+				if(i > actual.parent.getChildCount()){
+					if(actual.parent == root){
+						return;
+					}
+					while(actual.parent.parent.getChildCount() < 2){
+						System.out.println(actual.parent.getText());
+						actual = actual.parent;
+					}
+					int next = actual.parent.getChildren().indexOf(actual.parent) + 1;
+					actual = actual.parent.parent.getChildAt(next);
+				}
+				else{
+					actual = actual.parent.getChildAt(i);
+				}
+			}
+			else{
+				actual = actual.getChildAt(0);
+			}
+
+		}
 	}
 }
