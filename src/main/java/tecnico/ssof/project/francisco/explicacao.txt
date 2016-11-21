@@ -1,0 +1,11 @@
+no inicio vamos procurar sitios onde pode entrar input.
+Para todo o codigo:
+    se encontrarmos um assignment (visto que a grande maioria dos problemas e aqui) // podemos generalizar mais tarde
+        vamos ver se ha inputs no right value.
+            se encontrarmos uma funcao de input, a variavel vai para a lista ma
+            se uma variavel na lista ma for usada, a nova variavel tb vai
+            se for uma string, vamos avaliar a concat
+                se um dos tokens da string for uma var ma ou uma funcao de input, adicionamos a var a lista
+
+
+Segundo passo sera encontrar as sanitizacoes, nas linhas das vars perigosas ou dos seus usos

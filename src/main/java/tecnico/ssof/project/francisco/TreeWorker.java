@@ -58,14 +58,31 @@ public class TreeWorker extends OurVisitor {
         }
     }
 
+    private void exploreForInputFunctionsInString(TreeNode node) throws TaintedInputException {
+        // analyzing the whole string searching for tainted variables usages, or input functions
+        for(int i = 0 ; i < node.getChildCount() ; i++) {
+            if(node.getChildAt(i).getText().equals("keyedVariable")){
+                TreeNode targetNode = node.getChildAt(i).getChildAt(0);
+                if(targetNode.isLeaf()) {
+                    String token = targetNode.getText();
+                    if(analyzer.getEntryPoints().contains(token) || taintedVariables.contains(token)){
+                        throw new TaintedInputException(targetNode.getLine());
+                    }
+                }
+            }
+        }
+    }
+
     private void exploreForInputFunctions(TreeNode node) throws TaintedInputException {
         if(isADangerousInputEntry(node)){
             // OMG!!! uma funcao de entrada perigosa!!
-            throw new TaintedInputException();
-        }else if(taintedVariables.contains(node.getText())){
+            throw new TaintedInputException(node.getLine());
+        }else if(taintedVariables.contains(node.getText())) {
             // atribuicao de uma variavel tainted a outra
             //OMG
-            throw new TaintedInputException();
+            throw new TaintedInputException(node.getLine());
+        }else if(!node.isLeaf() && node.getText().equals("string")){ // possivel concatenacao
+            exploreForInputFunctionsInString(node.getChildAt(0));
         }else{
             exploreForTaintedInput(node); //keep exploring
         }
@@ -76,7 +93,7 @@ public class TreeWorker extends OurVisitor {
     }
 
     private boolean isAnAssignmentStatement(TreeNode node) {
-        return isNotLeftRecursionExpression(node) && isAssignmentExpression(node) && isKeyedVariable(node, 0) && isKeyedVariable(node, 2);
+        return isNotLeftRecursionExpression(node) && isAssignmentExpression(node) && isKeyedVariable(node, 0);
     }
 
     private boolean isKeyedVariable(TreeNode node, int child) {
