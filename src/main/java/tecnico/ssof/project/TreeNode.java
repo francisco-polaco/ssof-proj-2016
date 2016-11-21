@@ -52,6 +52,7 @@ public class TreeNode {
 		}
 		else{
 			System.err.println("Not a valid index");
+			throw new IndexOutOfBoundsException();
 		}
 	}
 	

@@ -104,12 +104,12 @@ public class Analyzer {
 	
 	
 	/// Runs over each pattern to search for vulnerabilities in the slice
-	private void run() {
+	private void run(String[] args) {
 	
 		List<String> file = readFile(args[0]);
 		int i = 0;
 		String line = file.get(i++);
-		while(i < file.size){
+		while(i < file.size()){
 			if(line.equals("SQL injection") || line.equals("XSS")){
 				String _entryPoints = file.get(i++);
 				String _validationFunctions = file.get(i++);
@@ -125,7 +125,7 @@ public class Analyzer {
 				for(int k = 0; k < _validationFunctionsList.length; k++){
 					this.validationFunctions.add(_validationFunctionsList[k]);
 				}
-				for(int l = 0; l < _sensitiveSinksList.length; k++){
+				for(int l = 0; l < _sensitiveSinksList.length; l++){
 					this.sensitiveSinks.add(_sensitiveSinksList[l]);
 				}
 			}
