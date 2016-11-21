@@ -5,18 +5,6 @@ import java.util.List;
 
 public class TreeNode {
 
-	public String getText() {
-		return text;
-	}
-
-	public TreeNode getParent() {
-		return parent;
-	}
-
-	public List<TreeNode> getChildren() {
-		return children;
-	}
-
 	private String text;
 	private int line;
 	private TreeNode parent;
@@ -27,6 +15,23 @@ public class TreeNode {
 		this.text = text;
 		this.line = line;
 		this.children = new LinkedList<TreeNode>();
+	}
+	
+	public int getLine() {
+		
+		return line;
+	}
+		
+	public String getText() {
+		return text;
+	}
+
+	public TreeNode getParent() {
+		return parent;
+	}
+
+	public List<TreeNode> getChildren() {
+		return children;
 	}
 	
 	/// Adds a child to this node
@@ -65,14 +70,6 @@ public class TreeNode {
 
 	}
 	
-	/// Get line
-	///
-	/// @return: line number of this node
-	public int getLine() {
-		
-		return line;
-	}
-	
 	/// Check if node is a leaf
 	///
 	/// @return: true if it is a leaf; false otherwise
@@ -87,6 +84,8 @@ public class TreeNode {
 	
 	/// Prints tree
 	public void print() {
+		
+		System.out.println("\nTreeNode.print()");
 		TreeNode root = this;
 		TreeNode actual = this.getChildAt(0);
 		int i;
