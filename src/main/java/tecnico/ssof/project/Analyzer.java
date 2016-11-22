@@ -33,6 +33,8 @@ public class Analyzer {
         System.out.println("\n--- Slice given as input ---\n");
         printSlice(new BufferedReader(new FileReader(analyzer.getSliceFilePath())));
         System.out.println("\n");
+        
+        analyzer.run(args);
         //analyzer.accept(new TreeWorker());
 
     }
@@ -105,7 +107,7 @@ public class Analyzer {
 	/// Runs over each pattern to search for vulnerabilities in the slice
 	private void run(String[] args) {
 	
-		List<String> file = readFile(args[0]);
+		List<String> file = readFile(PATTERN_FILE_PATH);
 		int i = 0;
 		String line = file.get(i++);
 		while(i < file.size()){
@@ -173,6 +175,25 @@ public class Analyzer {
 		
 		v.visit(this);
 
+	}
+	
+	
+	// Auxiliary for debug purposes
+	private void printLists() {
+		
+		System.out.println("\n");
+		
+		System.out.println("Pattern entry points!");
+		for(String s: entryPoints)
+			System.out.println(s);
+		
+		System.out.println("Pattern validation functions!");
+		for(String s: validationFunctions)
+			System.out.println(s);
+		
+		System.out.println("Pattern sensitive sinks!");
+		for(String s: sensitiveSinks)
+			System.out.println(s);
 	}
 }
 
