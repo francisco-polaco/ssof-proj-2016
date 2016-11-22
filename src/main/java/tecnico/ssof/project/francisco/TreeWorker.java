@@ -26,7 +26,7 @@ public class TreeWorker extends OurVisitor {
         }
 
         System.out.println("" + phpBlock.getChildCount());
-        phpBlock.print();
+        TreeNode.print(phpBlock);
 
 
         // Lets get all data input points

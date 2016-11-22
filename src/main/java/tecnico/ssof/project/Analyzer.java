@@ -98,7 +98,7 @@ public class Analyzer {
 		this.accept(treeBuilder);
 		
 		// print AST to debug
-		this.ast.print();
+		TreeNode.print(ast);
 	}
 	
 	
