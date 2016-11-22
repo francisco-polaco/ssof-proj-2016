@@ -28,11 +28,6 @@ public class Analyzer {
 		
 		// parse slice and give result as input to TreeBuilder for building the AST
 		analyzer.parse();
-		
-        // print file (with line numbers) and results
-        System.out.println("\n--- Slice given as input ---\n");
-        printSlice(new BufferedReader(new FileReader(analyzer.getSliceFilePath())));
-        System.out.println("\n");
         
         // method name is deceiving. this only parses the pattern file
         analyzer.run(args);
@@ -40,6 +35,10 @@ public class Analyzer {
         analyzer.printLists();
         //analyzer.accept(new TreeWorker());
 
+        // print file (with line numbers) and results
+        System.out.println("\n--- Slice given as input ---\n");
+        printSlice(new BufferedReader(new FileReader(analyzer.getSliceFilePath())));
+        System.out.println("\n");
     }
 
 	private static final String PATTERN_FILE_PATH = "examples/pattern_all.txt"; 
@@ -112,9 +111,11 @@ public class Analyzer {
 	
 		List<String> file = readFile(PATTERN_FILE_PATH);
 		int i = 0;
-		String line = file.get(i++);
+		String line = file.get(i);
 		while(i < file.size()){
 			if(line.equals("SQL injection") || line.equals("XSS")){
+				i++; // skip the line with the name of the vulnerability
+				
 				String _entryPoints = file.get(i++);
 				String _validationFunctions = file.get(i++);
 				String _sensitiveSinks = file.get(i++);
@@ -122,6 +123,7 @@ public class Analyzer {
 				String[] _entryPointsList = _entryPoints.split(",");
 				String[] _validationFunctionsList = _validationFunctions.split(",");
 				String[] _sensitiveSinksList = _sensitiveSinks.split(",");
+
 
 				for(int j = 0; j < _entryPointsList.length; j++){
 					this.entryPoints.add(_entryPointsList[j]);
@@ -133,9 +135,7 @@ public class Analyzer {
 					this.sensitiveSinks.add(_sensitiveSinksList[l]);
 				}
 			}
-			else{
-				i++;
-			}
+				i++; //skip blank line
 		}
 	}
 
