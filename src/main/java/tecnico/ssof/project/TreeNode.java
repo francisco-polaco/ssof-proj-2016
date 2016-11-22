@@ -83,35 +83,45 @@ public class TreeNode {
 	}
 	
 	/// Prints tree
-	public void print() {
+//	public void print() {
+//		
+//		System.out.println("\nTreeNode.print()");
+//		TreeNode root = this;
+//		TreeNode actual = this.getChildAt(0);
+//		int i;
+//		while(actual != root){
+//			if(actual.isLeaf()){
+//				System.out.println(actual.getText());
+//				i = actual.parent.getChildren().indexOf(actual) + 1;
+//				if(i > actual.parent.getChildCount()){
+//					if(actual.parent == root){
+//						return;
+//					}
+//					while(actual.parent.parent.getChildCount() < 2){
+//						System.out.println(actual.parent.getText());
+//						actual = actual.parent;
+//					}
+//					int next = actual.parent.getChildren().indexOf(actual.parent) + 1;
+//					actual = actual.parent.parent.getChildAt(next);
+//				}
+//				else{
+//					actual = actual.parent.getChildAt(i);
+//				}
+//			}
+//			else{
+//				actual = actual.getChildAt(0);
+//			}
+//
+//		}
+//	}
+	
+	public static void print(TreeNode parent) {
 		
-		System.out.println("\nTreeNode.print()");
-		TreeNode root = this;
-		TreeNode actual = this.getChildAt(0);
-		int i;
-		while(actual != root){
-			if(actual.isLeaf()){
-				System.out.println(actual.getText());
-				i = actual.parent.getChildren().indexOf(actual) + 1;
-				if(i > actual.parent.getChildCount()){
-					if(actual.parent == root){
-						return;
-					}
-					while(actual.parent.parent.getChildCount() < 2){
-						System.out.println(actual.parent.getText());
-						actual = actual.parent;
-					}
-					int next = actual.parent.getChildren().indexOf(actual.parent) + 1;
-					actual = actual.parent.parent.getChildAt(next);
-				}
-				else{
-					actual = actual.parent.getChildAt(i);
-				}
-			}
-			else{
-				actual = actual.getChildAt(0);
-			}
-
+		for(TreeNode node: parent.getChildren())
+		{
+			System.out.println(node.getText());
+			if(!node.isLeaf())
+				print(node);
 		}
 	}
 }
