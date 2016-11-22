@@ -44,7 +44,7 @@ public class TreeBuilder extends OurVisitor {
 		if (!toBeIgnored && !ruleName.equals("htmlElement")) {
 			
 			thisNode = parentNode.addChild(ruleName, line); // add this rule as child
-			System.out.println(thisNode.getText());
+			//System.out.println(thisNode.getText());
         }
 		else
 			thisNode = parentNode;
@@ -61,7 +61,7 @@ public class TreeBuilder extends OurVisitor {
         		{
         			TerminalNode leaf = (TerminalNode) child;
         			TreeNode dummy = thisNode.addChild(leaf.getText(), line);
-        			System.out.println("TOKEN: " + dummy.getText());
+        			//System.out.println("TOKEN: " + dummy.getText());
         		}
 		}
 	}
