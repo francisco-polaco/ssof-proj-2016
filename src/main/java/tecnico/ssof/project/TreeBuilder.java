@@ -43,8 +43,8 @@ public class TreeBuilder extends OurVisitor {
 		// if not to be ignored, we need to build a new node
 		if (!toBeIgnored && !ruleName.equals("htmlElement")) {
 			
-			System.out.println(ruleName);
 			thisNode = parentNode.addChild(ruleName, line); // add this rule as child
+			System.out.println(thisNode.getText());
         }
 		else
 			thisNode = parentNode;
@@ -60,8 +60,8 @@ public class TreeBuilder extends OurVisitor {
         		if(child instanceof TerminalNode && !ruleName.equals("htmlElement")) // it's a token! just create node for it
         		{
         			TerminalNode leaf = (TerminalNode) child;
-        			System.out.println("TOKEN: " + leaf.getText());
-        			thisNode.addChild(leaf.getText(), line);
+        			TreeNode dummy = thisNode.addChild(leaf.getText(), line);
+        			System.out.println("TOKEN: " + dummy.getText());
         		}
 		}
 	}

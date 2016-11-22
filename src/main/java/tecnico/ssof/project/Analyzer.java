@@ -26,16 +26,14 @@ public class Analyzer {
 		// create Analyzer
 		Analyzer analyzer = new Analyzer(slice_path);
 		
-		// parse slice
+		// parse slice and give result as input to TreeBuilder for building the AST
 		analyzer.parse();
-        //analyzer.accept(new TreeBuilder(analyzer.getAst().));
+		
         // print file (with line numbers) and results
         System.out.println("\n--- Slice given as input ---\n");
-
         printSlice(new BufferedReader(new FileReader(analyzer.getSliceFilePath())));
-
-
-        analyzer.accept(new TreeWorker());
+        System.out.println("\n");
+        //analyzer.accept(new TreeWorker());
 
     }
 
@@ -92,14 +90,15 @@ public class Analyzer {
 	private void parse() throws IOException {
 		
 		// parse (just for debug)
-		ParserFacade parser = new ParserFacade();
-		parser.parse(new File(sliceFilePath));
+		//ParserFacade parser = new ParserFacade();
+		//parser.parse(new File(sliceFilePath));
 		
 		// build tree
-		// treeBuilder = new TreeBuilder(new ParserFacade.parse(new File(sliceFilePath)));
-		// treeBuilder.visit(this);
+		TreeBuilder treeBuilder = new TreeBuilder(new ParserFacade().parse(new File(sliceFilePath)));
+		this.accept(treeBuilder);
 		
-		// TODO
+		// print AST to debug
+		TreeNode.print(ast);
 	}
 	
 	
