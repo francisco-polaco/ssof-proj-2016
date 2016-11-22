@@ -48,10 +48,51 @@ public class TreeWorker extends OurVisitor {
             return;
         }
 
+        // Check if this variables are used in sensitive sinks
+        for(int i = 0 ; i < phpBlock.getChildCount() ; i++){
+            try {
+                exploreForSensitiveSinks(phpBlock.getChildAt(i));
+            } catch (SensitiveSinkWithVulnException e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
 
 	}
 
-	private void exploreForSanitization(TreeNode node){
+    private void exploreForSensitiveSinks(TreeNode node) throws SensitiveSinkWithVulnException {
+        if(isAFunctionCall(node)){
+            if(isASensitiveSinkFunction(node) && argumentsAreTainted(node))
+                throw new SensitiveSinkWithVulnException(node.getLine());
+        }else{
+            for(int i = 0 ; i < node.getChildCount() ; i++)
+                exploreForSensitiveSinks(node.getChildAt(i));
+        }
+    }
+
+    private boolean argumentsAreTainted(TreeNode node) {
+        TreeNode argumentsNode = node.getChildAt(1);
+        if(!argumentsNode.isLeaf() && argumentsNode.getText().equals("arguments")){
+            for(int i = 0 ; i < argumentsNode.getChildCount() ; i++){
+                if(isChildAtKeyedVariable(argumentsNode, i)){
+                    TreeNode nodeArgumentToken = argumentsNode.getChildAt(i).getChildAt(0);
+                    if(nodeArgumentToken.isLeaf()){
+                        if(taintedVariables.contains(nodeArgumentToken.getText())) return true;
+                    }else{
+                        System.err.println("Nao sei contar argumentos de chamadas as funccoes sink");
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isASensitiveSinkFunction(TreeNode node) {
+        return analyzer.getSensitiveSinks().contains(node.getText());
+    }
+
+    private void exploreForSanitization(TreeNode node){
         if(isAnAssignmentStatement(node) && isAFunctionCall(node.getChildAt(2))){
             try {
                 exploreForSanitizationFunctions(node.getChildAt(2));
@@ -132,11 +173,11 @@ public class TreeWorker extends OurVisitor {
     }
 
     private boolean isAnAssignmentStatement(TreeNode node) {
-        return isNotLeftRecursionExpression(node) && isAssignmentExpression(node) && isKeyedVariable(node, 0);
+        return isNotLeftRecursionExpression(node) && isAssignmentExpression(node) && isChildAtKeyedVariable(node, 0);
     }
 
-    private boolean isKeyedVariable(TreeNode node, int child) {
-        return node.getChildAt(child).getText().equals("keyedVariable");
+    private boolean isChildAtKeyedVariable(TreeNode node, int child) {
+        return !node.getChildAt(child).isLeaf() && node.getChildAt(child).getText().equals("keyedVariable");
     }
 
     private boolean isNotLeftRecursionExpression(TreeNode node) {
