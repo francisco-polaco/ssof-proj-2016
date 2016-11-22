@@ -34,12 +34,15 @@ public class Analyzer {
         printSlice(new BufferedReader(new FileReader(analyzer.getSliceFilePath())));
         System.out.println("\n");
         
+        // method name is deceiving. this only parses the pattern file
         analyzer.run(args);
+        // debug
+        analyzer.printLists();
         //analyzer.accept(new TreeWorker());
 
     }
 
-	private static final String PATTERN_FILE_PATH = "../../../../../../examples/pattern_sqli.txt"; 
+	private static final String PATTERN_FILE_PATH = "examples/pattern_all.txt"; 
 	
 	private String sliceFilePath; 				// path to the slice file
 	private String vulnerability;				// vulnerability name (necessary???)
