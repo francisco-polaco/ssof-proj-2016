@@ -32,8 +32,9 @@ public class Analyzer {
         // method name is deceiving. this only parses the pattern file
         analyzer.run(args);
         // debug
-        analyzer.printLists();
-        //analyzer.accept(new TreeWorker());
+        //analyzer.printLists();
+
+        analyzer.accept(new TreeWorker());
 
         // print file (with line numbers) and results
         System.out.println("\n--- Slice given as input ---\n");

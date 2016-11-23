@@ -13,7 +13,7 @@ public class TreeWorker extends OurVisitor {
 
     @Override
 	public void visit(Analyzer analyzer) {
-        System.out.println("==========FRANCISCO_VISITOR=============");
+        System.out.println("\n==========FRANCISCO_VISITOR=============");
         this.analyzer = analyzer;
         if(analyzer.getAst().getChildCount() == 0){
             System.err.println("No ast found.");
@@ -26,12 +26,16 @@ public class TreeWorker extends OurVisitor {
         }
 
         System.out.println("" + phpBlock.getChildCount());
-        TreeNode.print(phpBlock);
+        //TreeNode.print(phpBlock);
 
 
         // Lets get all data input points
         for(int i = 0 ; i < phpBlock.getChildCount() ; i++){
             exploreForTaintedInput(phpBlock.getChildAt(i));
+        }
+        System.out.println("vars:");
+        for(String s : taintedVariables){
+            System.out.println(s);
         }
         if(taintedVariables.size() == 0){
             System.out.println("There is no input functions! Hooray!");
@@ -47,7 +51,10 @@ public class TreeWorker extends OurVisitor {
             System.out.println("There is no bad variables! Hooray!");
             return;
         }
-
+        System.out.println("vars:");
+        for(String s : taintedVariables){
+            System.out.println(s);
+        }
         // Check if this variables are used in sensitive sinks
         for(int i = 0 ; i < phpBlock.getChildCount() ; i++){
             try {
@@ -58,13 +65,17 @@ public class TreeWorker extends OurVisitor {
             }
         }
 
+        System.out.println("\n========END_FRANCISCO_VISITOR===========");
 
 	}
 
     private void exploreForSensitiveSinks(TreeNode node) throws SensitiveSinkWithVulnException {
         if(isAFunctionCall(node)){
-            if(isASensitiveSinkFunction(node) && argumentsAreTainted(node))
+            System.out.println(node.getText());
+            if(isASensitiveSinkFunction(node) && argumentsAreTainted(node)) {
+                System.out.println(node.getText());
                 throw new SensitiveSinkWithVulnException(node.getLine());
+            }
         }else{
             for(int i = 0 ; i < node.getChildCount() ; i++)
                 exploreForSensitiveSinks(node.getChildAt(i));
@@ -89,7 +100,7 @@ public class TreeWorker extends OurVisitor {
     }
 
     private boolean isASensitiveSinkFunction(TreeNode node) {
-        return analyzer.getSensitiveSinks().contains(node.getText());
+        return analyzer.getSensitiveSinks().contains(node.getChildAt(0).getChildAt(0).getText());
     }
 
     private void exploreForSanitization(TreeNode node){
@@ -124,13 +135,15 @@ public class TreeWorker extends OurVisitor {
     }
 
     private void exploreForTaintedInput(TreeNode node){
+
         if(isAnAssignmentStatement(node)) {
+            System.out.println("God assignment! " + node.getText() + node.isLeaf());
             // estamos perante uma situacao favoravel a uma atribuicao de variaveis mas
             try {
                 exploreForInputFunctions(node.getChildAt(2));
             } catch (TaintedInputException e) {
                 // AHAH I knew it, you shall go to the slammer!
-                taintedVariables.add(node.getChildAt(0).getText());
+                taintedVariables.add(node.getChildAt(0).getChildAt(0).getText()); //keyedVar.get Token
             }
         }else{
             for(int i = 0 ; i < node.getChildCount() ; i++)
@@ -139,6 +152,7 @@ public class TreeWorker extends OurVisitor {
     }
 
     private void exploreForInputFunctionsInString(TreeNode node) throws TaintedInputException {
+        System.out.println(node.getText());
         // analyzing the whole string searching for tainted variables usages, or input functions
         for(int i = 0 ; i < node.getChildCount() ; i++) {
             if(node.getChildAt(i).getText().equals("keyedVariable")){
@@ -154,6 +168,8 @@ public class TreeWorker extends OurVisitor {
     }
 
     private void exploreForInputFunctions(TreeNode node) throws TaintedInputException {
+        System.out.println("exploreForInputFunctions! " + node.getText() + node.isLeaf());
+
         if(isADangerousInputEntry(node)){
             // OMG!!! uma funcao de entrada perigosa!!
             throw new TaintedInputException(node.getLine());
@@ -162,13 +178,15 @@ public class TreeWorker extends OurVisitor {
             //OMG
             throw new TaintedInputException(node.getLine());
         }else if(!node.isLeaf() && node.getText().equals("string")){ // possivel concatenacao
-            exploreForInputFunctionsInString(node.getChildAt(0));
+            System.out.println("STRING!!!");
+            exploreForInputFunctionsInString(node);
         }else{
             exploreForTaintedInput(node); //keep exploring
         }
     }
 
     private boolean isADangerousInputEntry(TreeNode node) {
+        System.out.println("isADangerousInputEntry! " + node.getChildAt(0).getText() + node.getChildAt(0).isLeaf());
         return node.getChildAt(0).isLeaf() && analyzer.getEntryPoints().contains(node.getChildAt(0).getText());
     }
 
