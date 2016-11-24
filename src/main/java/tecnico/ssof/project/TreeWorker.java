@@ -30,7 +30,7 @@ public class TreeWorker extends OurVisitor {
             exploreForSanitization(astRoot.getChildAt(i));
 
             // Check if this variables are used in sensitive sinks
-            try {
+            try { // search for stings as args
                 exploreForSensitiveSinks(astRoot.getChildAt(i));
             } catch (SensitiveSinkWithVulnerabilityException e) {
                 System.out.println();
@@ -90,6 +90,12 @@ public class TreeWorker extends OurVisitor {
                     TreeNode nodeArgumentToken = argumentsNode.getChildAt(i).getChildAt(0);
                     if(nodeArgumentToken.isLeaf() && taintedVariables.contains(nodeArgumentToken.getText()))
                         return true;
+                }else if(isChildAtString(argumentsNode, i)){
+                    try {
+                        exploreForInputFunctionsInString(argumentsNode.getChildAt(i));
+                    } catch (TaintedInputException e) {
+                        return true;
+                    }
                 }
             }
         }
@@ -191,6 +197,10 @@ public class TreeWorker extends OurVisitor {
 
     private boolean isChildAtKeyedVariable(TreeNode node, int child) {
         return !node.getChildAt(child).isLeaf() && node.getChildAt(child).getText().equals("keyedVariable");
+    }
+
+    private boolean isChildAtString(TreeNode node, int child) {
+        return !node.getChildAt(child).isLeaf() && node.getChildAt(child).getText().equals("string");
     }
 
     private boolean isNotLeftRecursionExpression(TreeNode node) {
