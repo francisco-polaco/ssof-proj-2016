@@ -48,16 +48,20 @@ public class Analyzer {
 	private List<String> validationFunctions;	// sanitization functions
 	private List<String> sensitiveSinks;		// sensitive sinks
 	private TreeNode ast;						// tree build from the AST created by the PHP Parser
+	private List<String> sliceLines;
 	
-	public Analyzer(String path) {
+	public Analyzer(String path) throws IOException {
 		
 		this.sliceFilePath = path;
 		this.entryPoints = new ArrayList<String>();
 		this.validationFunctions = new ArrayList<String>();
 		this.sensitiveSinks = new ArrayList<String>();
 		this.ast = new TreeNode("root", -1);			// dummy node to represent the tree root (has no relevant info)
+		
+		getSliceLines();
 	}
 	
+
 	// getters/setters
 	
 	public String getSliceFilePath() {
@@ -169,6 +173,20 @@ public class Analyzer {
 	    	System.out.println(String.valueOf(line_no) + ": " + line);
 	    	line_no++;
 	    }
+	}
+	
+	/// Reads slice file to an array list (line by line)
+	private void getSliceLines() throws IOException {
+		 
+		BufferedReader reader = new BufferedReader(new FileReader(this.sliceFilePath));
+	   	String line;
+	   	
+	    while ((line = reader.readLine()) != null) {
+	    	
+	      this.sliceLines.add(line);
+	    }
+	    
+	    reader.close();
 	}
 	
 	
