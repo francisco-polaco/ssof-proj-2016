@@ -1,4 +1,4 @@
-package tecnico.ssof.project.francisco;
+package tecnico.ssof.project.exception;
 
 /**
  * Created by francisco on 20/11/2016.

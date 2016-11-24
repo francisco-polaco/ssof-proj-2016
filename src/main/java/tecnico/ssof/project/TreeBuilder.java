@@ -4,7 +4,6 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
-
 import tecnico.ssof.project.parser.PHPParser;
 
 public class TreeBuilder extends OurVisitor {
@@ -20,7 +19,7 @@ public class TreeBuilder extends OurVisitor {
 	@Override
 	public void visit(Analyzer analyzer) {
 		
-		System.out.println("Just started building the tree!");
+		//System.out.println("Just started building the tree!");
 		
 		explore(root, analyzer.getAst());
 	}

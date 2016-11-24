@@ -1,15 +1,10 @@
 package tecnico.ssof.project.printer;
 
-import tecnico.ssof.project.parser.*;
-
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.RuleContext;
-import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.TokenStream;
-import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import tecnico.ssof.project.parser.PHPParser;
 
 public class ASTPrinter {
 

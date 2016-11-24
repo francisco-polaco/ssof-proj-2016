@@ -1,10 +1,10 @@
 package tecnico.ssof.project;
 
-import tecnico.ssof.project.parser.*;
-import tecnico.ssof.project.printer.ASTPrinter;
-
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import tecnico.ssof.project.parser.PHPLexer;
+import tecnico.ssof.project.parser.PHPParser;
+import tecnico.ssof.project.printer.ASTPrinter;
 
 import java.io.File;
 import java.io.IOException;

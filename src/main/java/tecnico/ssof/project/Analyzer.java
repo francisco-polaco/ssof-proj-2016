@@ -1,7 +1,5 @@
 package tecnico.ssof.project;
 
-import tecnico.ssof.project.francisco.TreeWorker;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -103,7 +101,7 @@ public class Analyzer {
 		this.accept(treeBuilder);
 		
 		// print AST to debug
-		TreeNode.print(ast);
+		//TreeNode.print(ast);
 	}
 	
 	
