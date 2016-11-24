@@ -40,11 +40,13 @@ public class TreeWorker extends OurVisitor {
         }
 
         // Text output to console
-        if(outputInSecureCodeCase.size() != 0) System.out.println();
-        for(String s : outputInSecureCodeCase){
-            System.out.println(s);
-        }
-
+        System.out.println();
+        if(outputInSecureCodeCase.size() != 0) {
+            for (String s : outputInSecureCodeCase) {
+                System.out.println(s);
+            }
+        }else
+            System.out.println("With the patterns given, nothing in the code raised suspicious.");
 	}
 
     private void exploreForSensitiveSinks(TreeNode node) throws SensitiveSinkWithVulnerabilityException {

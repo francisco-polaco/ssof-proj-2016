@@ -1,0 +1,5 @@
+<html>
+<?php
+$q=mysql_query("SELECT *FROM siswa WHERE nis='$_POST['nis']'");
+?>
+</html>
