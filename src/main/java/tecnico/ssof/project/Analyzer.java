@@ -32,12 +32,14 @@ public class Analyzer {
         // debug
         //analyzer.printLists();
 
+		// print file (with line numbers) and results
+		System.out.println("\n--- Slice given as input ---\n");
+		printSlice(new BufferedReader(new FileReader(analyzer.getSliceFilePath())));
+		System.out.println("\n");
+
         analyzer.accept(new TreeWorker());
 
-        // print file (with line numbers) and results
-        System.out.println("\n--- Slice given as input ---\n");
-        printSlice(new BufferedReader(new FileReader(analyzer.getSliceFilePath())));
-        System.out.println("\n");
+
     }
 
 	private static final String PATTERN_FILE_PATH = "examples/pattern_all.txt"; 
@@ -48,24 +50,29 @@ public class Analyzer {
 	private List<String> validationFunctions;	// sanitization functions
 	private List<String> sensitiveSinks;		// sensitive sinks
 	private TreeNode ast;						// tree build from the AST created by the PHP Parser
-	private List<String> sliceLines;
-	
+
+	private List<String> sliceLines = new ArrayList<>();
+
 	public Analyzer(String path) throws IOException {
-		
+
 		this.sliceFilePath = path;
 		this.entryPoints = new ArrayList<String>();
 		this.validationFunctions = new ArrayList<String>();
 		this.sensitiveSinks = new ArrayList<String>();
 		this.ast = new TreeNode("root", -1);			// dummy node to represent the tree root (has no relevant info)
-		
-		getSliceLines();
+
+		readSliceLines();
 	}
-	
 
 	// getters/setters
-	
+
+
 	public String getSliceFilePath() {
 		return sliceFilePath;
+	}
+
+	public List<String> getSliceLines() {
+		return sliceLines;
 	}
 
 	public String getVulnerability() {
@@ -176,7 +183,7 @@ public class Analyzer {
 	}
 	
 	/// Reads slice file to an array list (line by line)
-	private void getSliceLines() throws IOException {
+	private void readSliceLines() throws IOException {
 		 
 		BufferedReader reader = new BufferedReader(new FileReader(this.sliceFilePath));
 	   	String line;

@@ -6,11 +6,12 @@ import tecnico.ssof.project.exception.SensitiveSinkWithVulnerabilityException;
 import tecnico.ssof.project.exception.TaintedInputException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class TreeWorker extends OurVisitor {
 
     private ArrayList<String> taintedVariables = new ArrayList<>();
-    private ArrayList<String> outputInSecureCodeCase = new ArrayList<>();
+    private ArrayList<Integer> lineNumOfEscapeDangVars = new ArrayList<>();
     private Analyzer analyzer;
 
     @Override
@@ -41,9 +42,11 @@ public class TreeWorker extends OurVisitor {
 
         // Text output to console
         System.out.println();
-        if(outputInSecureCodeCase.size() != 0) {
-            for (String s : outputInSecureCodeCase) {
-                System.out.println(s);
+        if(lineNumOfEscapeDangVars.size() != 0) {
+            List<String> lines = analyzer.getSliceLines();
+            System.out.println("Slice's line where dangerous inputs are escaped:");
+            for (Integer i : lineNumOfEscapeDangVars) {
+                System.out.println("" + i + ": " + lines.get(i - 1));
             }
         }else
             System.out.println("With the patterns given, nothing in the code raised suspicious.");
@@ -114,8 +117,7 @@ public class TreeWorker extends OurVisitor {
                 String varsName = e.getVarToSanitize();
                 if (taintedVariables.contains(varsName)){ // apaga variaveis que sejam escapadas
                     taintedVariables.remove(varsName);
-                    outputInSecureCodeCase.add("Variable: " + varsName +
-                            "\nSanitized by function: " + e.getFunctionName() + "\nin line: " + node.getLine());
+                    lineNumOfEscapeDangVars.add(node.getLine());
                 }
             }
 
