@@ -42,7 +42,7 @@ public class Analyzer {
 
     }
 
-	private static final String PATTERN_FILE_PATH = "examples/pattern_all.txt"; 
+	private static final String PATTERN_FILE_PATH = "patterns/pattern_all.txt"; 
 	
 	private String sliceFilePath; 				// path to the slice file
 	private String vulnerability;				// vulnerability name (necessary???)
