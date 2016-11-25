@@ -35,6 +35,6 @@
 0. First copy the patterns folder (from the project root) to the directory where you have the JAR file
 
 1. Run with: 
-  java -jar Analyzer.jar <slice_file_path>
+  java -jar Analyzer.jar **slice_file_path**
   
  
