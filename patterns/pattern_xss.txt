@@ -1,0 +1,4 @@
+XSS
+$_SERVER,$_POST
+htmlentities,htmlspecialchars,strip_tags,urlencode
+echo
