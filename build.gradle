@@ -33,6 +33,7 @@ eclipse {
 
 clean {
     delete 'bin'
+    
 }
 
 compileJava.dependsOn generateGrammarSource
@@ -48,11 +49,11 @@ run {
 
 task fatJar(type: Jar) {
     manifest {
-        attributes 'Implementation-Title': 'Analyzer',
+        attributes 'Implementation-Title': 'Software Security Project',
                    'Implementation-Version': '0.1',
                    'Main-Class': 'tecnico.ssof.project.Analyzer'
     }
-    baseName = project.name + '-all'
+    baseName = 'Analyzer'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
