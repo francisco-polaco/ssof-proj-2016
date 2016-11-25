@@ -46,3 +46,15 @@ run {
 	}
 }
 
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Analyzer',
+                   'Implementation-Version': '0.1',
+                   'Main-Class': 'tecnico.ssof.project.Analyzer'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+
