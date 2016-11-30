@@ -11,14 +11,14 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 
-public class ParserFacade {
+class ParserFacade {
 
 	private static final String ENCODING = "UTF-8";
 	
-	private boolean printAST = true; // true if we want to print the resulting AST
+	private boolean printAST; // true if we want to print the resulting AST
 	
-	public ParserFacade() {
-		
+	public ParserFacade(boolean printAST) {
+		this.printAST = printAST;
 	}
 	
 	/// Parse the given file

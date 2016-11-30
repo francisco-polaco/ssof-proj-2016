@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Analyzer {
@@ -28,9 +29,7 @@ public class Analyzer {
 		analyzer.parse();
         
         // method name is deceiving. this only parses the pattern file
-        analyzer.run(args);
-        // debug
-        //analyzer.printLists();
+        analyzer.processPatterns(args);
 
 		// print file (with line numbers) and results
 		System.out.println("\n--- Slice given as input ---\n");
@@ -45,7 +44,6 @@ public class Analyzer {
 	private static final String PATTERN_FILE_PATH = "patterns/pattern_all.txt"; 
 	
 	private String sliceFilePath; 				// path to the slice file
-	private String vulnerability;				// vulnerability name (necessary???)
 	private List<String> entryPoints;			// entry points
 	private List<String> validationFunctions;	// sanitization functions
 	private List<String> sensitiveSinks;		// sensitive sinks
@@ -53,12 +51,12 @@ public class Analyzer {
 
 	private List<String> sliceLines = new ArrayList<>();
 
-	public Analyzer(String path) throws IOException {
+	private Analyzer(String path) throws IOException {
 
 		this.sliceFilePath = path;
-		this.entryPoints = new ArrayList<String>();
-		this.validationFunctions = new ArrayList<String>();
-		this.sensitiveSinks = new ArrayList<String>();
+		this.entryPoints = new ArrayList<>();
+		this.validationFunctions = new ArrayList<>();
+		this.sensitiveSinks = new ArrayList<>();
 		this.ast = new TreeNode("root", -1);			// dummy node to represent the tree root (has no relevant info)
 
 		readSliceLines();
@@ -67,16 +65,12 @@ public class Analyzer {
 	// getters/setters
 
 
-	public String getSliceFilePath() {
+	private String getSliceFilePath() {
 		return sliceFilePath;
 	}
 
 	public List<String> getSliceLines() {
 		return sliceLines;
-	}
-
-	public String getVulnerability() {
-		return vulnerability;
 	}
 
 	public List<String> getEntryPoints() {
@@ -108,7 +102,7 @@ public class Analyzer {
 		//parser.parse(new File(sliceFilePath));
 		
 		// build tree
-		TreeBuilder treeBuilder = new TreeBuilder(new ParserFacade().parse(new File(sliceFilePath)));
+		TreeBuilder treeBuilder = new TreeBuilder(new ParserFacade(false).parse(new File(sliceFilePath)));
 		this.accept(treeBuilder);
 		
 		// print AST to debug
@@ -117,7 +111,7 @@ public class Analyzer {
 	
 	
 	/// Runs over each pattern to search for vulnerabilities in the slice
-	private void run(String[] args) {
+	private void processPatterns(String[] args) {
 	
 		List<String> file = readFile(PATTERN_FILE_PATH);
 		int i = 0;
@@ -135,22 +129,16 @@ public class Analyzer {
 				String[] _sensitiveSinksList = _sensitiveSinks.split(",");
 
 
-				for(int j = 0; j < _entryPointsList.length; j++){
-					this.entryPoints.add(_entryPointsList[j]);
-				}
-				for(int k = 0; k < _validationFunctionsList.length; k++){
-					this.validationFunctions.add(_validationFunctionsList[k]);
-				}
-				for(int l = 0; l < _sensitiveSinksList.length; l++){
-					this.sensitiveSinks.add(_sensitiveSinksList[l]);
-				}
+				Collections.addAll(this.entryPoints, _entryPointsList);
+				Collections.addAll(this.validationFunctions, _validationFunctionsList);
+				Collections.addAll(this.sensitiveSinks, _sensitiveSinksList);
 			}
 				i++; //skip blank line
 		}
 	}
 
 	private List<String> readFile(String filename){
-	  	List<String> records = new ArrayList<String>();
+	  	List<String> records = new ArrayList<>();
 		try
 		{
 		  	BufferedReader reader = new BufferedReader(new FileReader(filename));
@@ -198,7 +186,7 @@ public class Analyzer {
 	
 	
 	/// Accept a visitor
-	public void accept(OurVisitor v) {
+	private void accept(OurVisitor v) {
 		
 		v.visit(this);
 

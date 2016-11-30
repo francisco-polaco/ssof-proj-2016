@@ -115,7 +115,8 @@ public class TreeWorker extends OurVisitor {
                 exploreForSanitizationFunctions(node.getChildAt(2));
             } catch (SanitizationFunctionException e) {
                 String varsName = e.getVarToSanitize();
-                if (taintedVariables.contains(varsName)){ // apaga variaveis que sejam escapadas
+                if (taintedVariables.contains(varsName)){
+                    // delete escaped vars
                     taintedVariables.remove(varsName);
                     lineNumOfEscapeDangVars.add(node.getLine());
                 }
@@ -145,11 +146,9 @@ public class TreeWorker extends OurVisitor {
     private void exploreForTaintedInput(TreeNode node){
 
         if(isAnAssignmentStatement(node)) {
-            // estamos perante uma situacao favoravel a uma atribuicao de variaveis mas
             try {
                 exploreForInputFunctions(node.getChildAt(2));
             } catch (TaintedInputException e) {
-                // AHAH I knew it, you shall go to the slammer!
                 taintedVariables.add(node.getChildAt(0).getChildAt(0).getText()); //keyedVar.get Token
             }
         }else{
@@ -176,13 +175,11 @@ public class TreeWorker extends OurVisitor {
     private void exploreForInputFunctions(TreeNode node) throws TaintedInputException {
 
         if(isADangerousInputEntry(node)){
-            // OMG!!! uma funcao de entrada perigosa!!
             throw new TaintedInputException(node.getLine());
         }else if(taintedVariables.contains(node.getText())) {
-            // atribuicao de uma variavel tainted a outra
-            //OMG
             throw new TaintedInputException(node.getLine());
-        }else if(!node.isLeaf() && node.getText().equals("string")){ // possivel concatenacao
+        }else if(!node.isLeaf() && node.getText().equals("string")){
+            // possible concat
             exploreForInputFunctionsInString(node);
         }else{
             exploreForTaintedInput(node); //keep exploring

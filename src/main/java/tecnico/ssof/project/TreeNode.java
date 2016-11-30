@@ -30,7 +30,7 @@ public class TreeNode {
 		return parent;
 	}
 
-	public List<TreeNode> getChildren() {
+	private List<TreeNode> getChildren() {
 		return children;
 	}
 	
@@ -52,8 +52,7 @@ public class TreeNode {
 	public TreeNode getChildAt(int index) throws IndexOutOfBoundsException {
 
 		if(this.getChildCount() > index){
-			TreeNode childToReturn = this.children.get(index);
-			return childToReturn;
+			return this.children.get(index);
 		}
 		else{
 			System.err.println("Not a valid index");
@@ -74,12 +73,8 @@ public class TreeNode {
 	///
 	/// @return: true if it is a leaf; false otherwise
 	public boolean isLeaf() {
-		
-		if(this.getChildCount() == 0){
-			return true;
-		}
-		else
-			return false;
+
+		return this.getChildCount() == 0;
 	}
 	
 	/// Prints tree
@@ -115,7 +110,7 @@ public class TreeNode {
 //		}
 //	}
 	
-	public static void print(TreeNode parent) {
+	private static void print(TreeNode parent) {
 		
 		for(TreeNode node: parent.getChildren())
 		{
