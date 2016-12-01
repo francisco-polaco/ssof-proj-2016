@@ -28,7 +28,7 @@ public class Analyzer {
 		// parse slice and give result as input to TreeBuilder for building the AST
 		analyzer.parse();
         
-        // method name is deceiving. this only parses the pattern file
+        // read and extract info from the pattern file
         analyzer.processPatterns(args);
 
 		// print file (with line numbers) and results
@@ -36,6 +36,7 @@ public class Analyzer {
 		printSlice(new BufferedReader(new FileReader(analyzer.getSliceFilePath())));
 		System.out.println("\n");
 
+		// run the analysis
         analyzer.accept(new TreeWorker());
 
 
@@ -194,22 +195,22 @@ public class Analyzer {
 	
 	
 	// Auxiliary for debug purposes
-	private void printLists() {
-		
-		System.out.println("\n");
-		
-		System.out.println("Pattern entry points!");
-		for(String s: entryPoints)
-			System.out.println(s);
-		
-		System.out.println("Pattern validation functions!");
-		for(String s: validationFunctions)
-			System.out.println(s);
-		
-		System.out.println("Pattern sensitive sinks!");
-		for(String s: sensitiveSinks)
-			System.out.println(s);
-	}
+//	private void printLists() {
+//		
+//		System.out.println("\n");
+//		
+//		System.out.println("Pattern entry points!");
+//		for(String s: entryPoints)
+//			System.out.println(s);
+//		
+//		System.out.println("Pattern validation functions!");
+//		for(String s: validationFunctions)
+//			System.out.println(s);
+//		
+//		System.out.println("Pattern sensitive sinks!");
+//		for(String s: sensitiveSinks)
+//			System.out.println(s);
+//	}
 }
 
 

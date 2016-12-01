@@ -77,39 +77,7 @@ public class TreeNode {
 		return this.getChildCount() == 0;
 	}
 	
-	/// Prints tree
-//	public void print() {
-//		
-//		System.out.println("\nTreeNode.print()");
-//		TreeNode root = this;
-//		TreeNode actual = this.getChildAt(0);
-//		int i;
-//		while(actual != root){
-//			if(actual.isLeaf()){
-//				System.out.println(actual.getText());
-//				i = actual.parent.getChildren().indexOf(actual) + 1;
-//				if(i > actual.parent.getChildCount()){
-//					if(actual.parent == root){
-//						return;
-//					}
-//					while(actual.parent.parent.getChildCount() < 2){
-//						System.out.println(actual.parent.getText());
-//						actual = actual.parent;
-//					}
-//					int next = actual.parent.getChildren().indexOf(actual.parent) + 1;
-//					actual = actual.parent.parent.getChildAt(next);
-//				}
-//				else{
-//					actual = actual.parent.getChildAt(i);
-//				}
-//			}
-//			else{
-//				actual = actual.getChildAt(0);
-//			}
-//
-//		}
-//	}
-	
+	/// auxiliary method to print tree
 	private static void print(TreeNode parent) {
 		
 		for(TreeNode node: parent.getChildren())
